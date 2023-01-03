@@ -135,6 +135,118 @@ void enqueue (queue_t *q, point_t *q)
 Ham Dequeue:
 Muc dich: Loai bo nut dung dau trong queue.
 */
+point_t *dequeue(queue_t *q)
+{
+    if (is_empty(q))
+    {
+        printf("DEBUG: dequeue: queue is empty.\n");
+        return NULL;
+    }
+    else
+    {
+        point_t *elem = q->items[q->front];
+        q->front++;
+        if (q->front > q->rear)
+        {
+            q->front = -1;
+            q->rear = -1;
+        }
+        return elem;
+    }
+}
+
+/*
+Ma tran bieu dien ban do
+Muc dich: Bieu dien tap hop cac diem tao thanh ban do
+*/
+point_t matrix[NUM_ROWS][NUM_COLS];
+
+/*
+Ham is_valid
+Muc dich: Kiem tra so nhap vao co thuoc trong ban do hay khong
+*/
+
+bool is_valid(int row, int col)
+{
+    return (row >= 0) && (col >= 0) && (row <= NUM_ROWS) && (col <= NUM_COLS);
+}
+
+/*
+Ham find_neighbors
+Muc dich: Xac dinh 4 points xung quanh xem co the di qua duoc
+hay khong
+*/
+void find_neighbors (int row, int col, point_t *out_neighbors[4], int *out_count)
+{
+     int count = 0;
+     printf("DEBUG: row = %d, col = %d\n", row, col);
+
+     //ben phai
+     if (is_valid(row, col + 1))
+     {
+         printf("DEBUG: row = %d, col = %d\n", row, col + 1);
+         if (matrix[row][col + 1] == 1)
+         {
+            out_neighbors[count] = &matrix[row][col + 1];
+            count++;
+         }
+     }
+
+     // ben trai
+     if (is_valid(row, col -1))
+     {
+         printf("DEBUG: row = %d, col = %d\n", row, col - 1);
+         if (matrix[row][col - 1] == 1)
+         {
+            out_neighbors[count] = &matrix[row][col - 1];
+            count++;
+         }
+     }
+
+     // ben tren
+     if (is_valid(row - 1, col))
+     {
+         printf("DEBUG: row = %d, col = %d\n", row - 1, col);
+         if (matrix[row - 1][col] == 1)
+         {
+            out_neighbors[count] = &matrix[row - 1][col];
+            count++;
+         }
+     }
+
+     // ben duoi
+     if (is_valid(row + 1, col))
+     {
+         printf("DEBUG: row = %d, col = %d\n", row + 1, col);
+         if (matrix[row + 1][col] == 1)
+         {
+            out_neighbors[count] = &matrix[row + 1][col];
+            count++;
+         }
+     }
+     *out_count = count;
+}
+
+/*
+Ham find_shortest_path
+Muc dich: tim kiem duong di ngan nhat tu diem khoi dau den
+diem mong muon
+*/
+
+void find_shortest_path(int dst_row, int dst_col)
+{
+    queue_t q;
+    init_queue(&q);
+
+    bool found = false;
+    point_t *found_ptr = NULL;
+
+    point_t *neighbors[MAX_NEIGHBORS];
+    int neighbor_count = 0;
+
+    enqueue(&q,&matrix[0][0]);
+    //TODO: Continue and read carefully
+}
 
 int main()
 {
